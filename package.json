@@ -4,13 +4,27 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "lint": "eslint index.js",
+        "lint:ci": "eslint index.js --max-warnings 0",
+        "test": "NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest",
+        "test:all": "npm run lint:ci && npm run test"
     },
     "keywords": [],
     "author": "Jean Louis Vangah",
     "license": "ISC",
     "type": "module",
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.0.2",
+        "globals": "^17.4.0",
+        "jest": "^30.2.0",
+        "nodemon": "^3.1.14",
+        "supertest": "^7.2.2"
+    },
     "dependencies": {
         "express": "^5.2.1"
+    },
+    "jest": {
+        "transform": {}
     }
 }
