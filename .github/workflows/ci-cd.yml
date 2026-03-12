@@ -72,38 +72,38 @@ jobs:
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
 
-deploy-staging:
-    name: Deploy to Staging (Service Container)
-    runs-on: ubuntu-latest
-    needs: build-and-push
-    permissions:
-        contents: read
-        packages: read
+    deploy-staging:
+        name: Deploy to Staging (Service Container)
+        runs-on: ubuntu-latest
+        needs: build-and-push
+        permissions:
+            contents: read
+            packages: read
 
-    services:
-        app:
-            image: ghcr.io/${{ github.repository }}:${{ github.sha }}
-            ports:
-                - 3005:3000
-            env:
-                NODE_ENV: staging
-                PORT: 3000
-            options: >-
-                --health-cmd="wget -qO- http://localhost:3000/health || exit 1"
-                --health-interval=30s
-                --health-timeout=10s
-                --health-retries=3
-                --health-start-period=10s
+        services:
+            app:
+                image: ghcr.io/${{ github.repository }}:${{ github.sha }}
+                ports:
+                    - 3005:3000
+                env:
+                    NODE_ENV: staging
+                    PORT: 3000
+                options: >-
+                    --health-cmd="wget -qO- http://localhost:3000/health || exit 1"
+                    --health-interval=30s
+                    --health-timeout=10s
+                    --health-retries=3
+                    --health-start-period=10s
 
-    steps:
-        - name: Checkout code
-          uses: actions/checkout@v6
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
 
-        - name: Wait for app health
-          run: |
-              for i in {1..5}; do
-                curl -f http://localhost:3005/health && exit 0
-                echo "Waiting for app to become healthy..."
-                sleep 10
-              done
-              echo "App failed health check" && exit 1
+            - name: Wait for app health
+              run: |
+                  for i in {1..5}; do
+                    curl -f http://localhost:3005/health && exit 0
+                    echo "Waiting for app to become healthy..."
+                    sleep 10
+                  done
+                  echo "App failed health check" && exit 1

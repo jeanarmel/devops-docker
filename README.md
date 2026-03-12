@@ -1,3 +1,3 @@
 # DevOps App
 
-![CI Pipeline](https://github.com/jeanarmel/devops-docker/actions/workflows/ci.yml/badge.svg)
+![CI-CD Pipeline](https://github.com/jeanarmel/devops-docker/actions/workflows/ci-cd.yml/badge.svg)
